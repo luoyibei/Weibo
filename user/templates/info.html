@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "wbbase.html" %}
+{% block content %}
+    <table>
+        <tr>帐号:{{ user.username }}</tr>
+        <tr>密码:{{ user.password }}</tr>
+        <tr>性别:{{ user.gender }}</tr>
+        <tr>城市:{{ user.city }}</tr>
 
-</body>
-</html>
+    </table>
+{% endblock %}

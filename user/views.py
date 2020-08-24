@@ -41,3 +41,11 @@ def register():
         return redirect('/user/login')
     else:
         return render_template('register.html')
+
+
+
+@user_bp.route('/info')
+def info():
+    username = session['name']
+    user = User.query.filter_by(username=username).one()
+    return render_template('info.html',user=user)
