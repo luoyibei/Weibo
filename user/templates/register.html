@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="div1">
+        新帐号:<input type="text" name="username" placeholder="请输入你的帐号">
+        <br>
+        新密码:<input type="password" name="password" placeholder="请输入你的密码">
+        <br>
+        性 别:<input type="radio" name="gender"  >男
+             <input type="radio" name="gender"  >女
+             <input type="radio" name="gender" checked >保密
+        <br>
+        城 市:<input type="text" name="city">
+        <br>
+        <br>
+        <a href="/user/login"><input type="submit" value="注册"></a>
+    </div>
+{% endblock %}

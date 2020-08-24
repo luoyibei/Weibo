@@ -2,9 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>微博首页</title>
+    <title>首页</title>
+    <style type="text/css">
+        .div1{
+            overflow: auto;
+            margin: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 400px;
+            height: 200px;
+            background-color: pink;
+            text-align: center;
+            padding-top: 70px;
+        }
+    </style>
 </head>
 <body>
-
+    {% block content %}
+    {% endblock %}
 </body>
 </html>

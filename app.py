@@ -20,7 +20,7 @@ db.init_app(app)
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    return redirect('/user/login')
 
 
 app.register_blueprint(user_bp)
