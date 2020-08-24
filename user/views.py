@@ -22,13 +22,22 @@ def login():
         if user.password != password:
             return '密码错误！'
         session['name'] = username
-        return redirect('/weibo/home?id=%s' % user.id)
+        return redirect('/wb/home')
     else:
         return render_template('login.html')
+
+
 
 @user_bp.route('/register',methods=('POST','GET'))
 def register():
     if request.method == 'POST':
-        pass
+        username = request.form.get('username')
+        password = request.form.get('password')
+        gender = request.form.get('gender')
+        city = request.form.get('city')
+        user = User(username=username,password=password,gender=gender,city=city)
+        db.session.add(user)
+        db.session.commit()
+        return redirect('/user/login')
     else:
         return render_template('register.html')

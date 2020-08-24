@@ -6,6 +6,7 @@ import pymysql
 
 from libs.orm import db
 from user.views import user_bp
+from wb.views import wb_bp
 
 app = Flask(__name__)
 
@@ -24,6 +25,7 @@ def hello_world():
 
 
 app.register_blueprint(user_bp)
+app.register_blueprint(wb_bp)
 
 if __name__ == '__main__':
     manger.run()

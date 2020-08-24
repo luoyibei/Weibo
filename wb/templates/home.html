@@ -1,0 +1,20 @@
+{% extends "wbbase.html" %}
+{% block content %}
+    <table border="1px solid antiquewhite" rules="all">
+        <tr>
+            <th>微博标题</th>
+            <th>微博作者</th>
+            <th>微博创建时间</th>
+            <th>微博内容</th>
+        </tr>
+        {% for wb in wbs %}
+            <tr>
+                <td>{{ wb.wbname }}</td>
+                <td>{{ wb.u_name }}</td>
+                <td>{{ wb.wbtime }}</td>
+                <td>{{ wb.wbcontent }}</td>
+            </tr>
+        {% endfor %}
+
+    </table>
+{% endblock %}
