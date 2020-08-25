@@ -3,6 +3,7 @@ from flask import Flask,request,redirect,render_template,session
 from libs.orm import db
 from user.models import  User
 from wb.models import Wb
+from libs.utils import login_required
 import datetime
 
 
@@ -10,14 +11,30 @@ wb_bp = Blueprint('wb',__name__,url_prefix='/wb')
 wb_bp.template_folder = './templates'
 
 
+# 信息验证，查看是否已登录
+# check_path = ['/user/info','/wb/mywb']
+#
+# @wb_bp.before_app_request
+# def process_request():
+#     if request.path in check_path:
+#         username = session['name']
+#         if not username:
+#             return render_template('login.html',err='用户未登录!')
+
+
 @wb_bp.route('/home')
 def home():
     # u_name = session.get('name')
-    wbs = Wb.query.all()
-    return render_template('home.html',wbs=wbs)
+    # wbs = Wb.query.all()
+    #获取页码数以及设置默认页码数
+    page = request.args.get('page',1)
+    paginate = Wb.query.paginate(page=int(page),per_page=1)
+    wbs = paginate.items
+    return render_template('home.html',paginate=paginate,wbs=wbs)
 
 
 @wb_bp.route('/mywb')
+@login_required
 def mywb():
     u_name = session['name']
     wbs = Wb.query.filter_by(u_name=u_name).all()

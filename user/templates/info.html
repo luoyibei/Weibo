@@ -1,7 +1,8 @@
-{% extends "wbbase.html" %}
+{% extends "base.html" %}
 {% block content %}
+    <h1>帐号:{{ user.username }} 您好</h1>
     <ul>
-        <li>帐号:{{ user.username }}</li>
+
         <li>密码:{{ user.password }}</li>
         <li>性别:{{ user.gender }}</li>
         <li>城市:{{ user.city }}</li>

@@ -1,10 +1,16 @@
-{% extends "userbase.html" %}
+{% extends "base.html" %}
 {% block content %}
+
     <div class="div1">
+        {% if err  %}
+            <p>{{ err }}</p>
+        {% endif %}
         <form action="/user/register" method="POST">
             新帐号:<input type="text" name="username" placeholder="请输入你的帐号">
             <br>
-            新密码:<input type="password" name="password" placeholder="请输入你的密码">
+            新密码:<input type="password" name="password1" placeholder="请输入你的密码">
+            <br>
+            确认密码:<input type="password" name="password2" placeholder="请再输入你的密码">
             <br>
             性 别:<input type="radio" name="gender" value="男" >男
                  <input type="radio" name="gender" value="女" >女

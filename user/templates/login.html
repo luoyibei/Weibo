@@ -1,6 +1,10 @@
-{% extends "userbase.html" %}
+{% extends "base.html" %}
 {% block content %}
+
     <div class="div1">
+        {% if err  %}
+            <p>{{ err }}</p>
+        {% endif %}
         <form action="/user/login" method="post">
             帐号:<input type="text" name="username" placeholder="请输入你的帐号">
             <br>

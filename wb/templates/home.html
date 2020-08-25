@@ -1,4 +1,4 @@
-{% extends "wbbase.html" %}
+{% extends "base.html" %}
 {% block content %}
     <table border="1px solid antiquewhite" rules="all">
         <tr>
@@ -17,4 +17,21 @@
         {% endfor %}
 
     </table>
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        <li {% if not paginate.has_prev %} class="disabled" {% endif %}>
+          <a href="/wb/home?page={{ paginate.prev_num }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+          {% for num in range(1,paginate.pages + 1)  %}
+              <li {% if num == paginate.page %}class="active"{% endif %} ><a href="/wb/home?page={{ num }}">{{ num }}</a></li>
+          {% endfor %}
+        <li {% if not paginate.has_next %} class="disabled" {% endif %}>
+          <a href="/wb/home?page={{ paginate.next_num }}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
 {% endblock %}

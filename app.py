@@ -21,7 +21,7 @@ db.init_app(app)
 
 @app.route('/')
 def hello_world():
-    return redirect('/user/login')
+    return redirect('/wb/home')
 
 
 app.register_blueprint(user_bp)
