@@ -5,15 +5,18 @@
             <tr>
                 微博标题:<input type="text" name="wbname" placeholder="请输入一个标题">
             </tr>
-            <tr style="display: none">
-                微博作者:<input type="text" name="u_name" value="{{ u_name }}">
+            <br>
+            <tr>
+               <input type="hidden" name="u_name" value="{{ u_name }}">
             </tr>
-            <tr style="display: none">
-                微博创建时间:<input type="text" name="wbtime" value="{{ wbtime }}">
+
+            <tr>
+                <input type="hidden" name="wbtime" value="{{ wbtime }}">
             </tr>
             <tr>
                 微博内容:<textarea name="wbcontent" placeholder="请输入一段内容"></textarea>
             </tr>
+            <br>
             <tr>
                 <input type="submit" value="提交">
             </tr>

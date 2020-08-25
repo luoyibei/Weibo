@@ -44,6 +44,13 @@ def register():
 
 
 
+@user_bp.route('/logout')
+def logout():
+    session.clear()
+    return register('/')
+
+
+
 @user_bp.route('/info')
 def info():
     username = session['name']

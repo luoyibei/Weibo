@@ -13,10 +13,12 @@
                 <td>{{ wb.u_name }}</td>
                 <td>{{ wb.wbtime }}</td>
                 <td>{{ wb.wbcontent }}</td>
-                <td><a href="/wb/delete?id={{ wb.id }}">删除</a></td>
+                <td><a href="/wb/updatewb?id={{ wb.id }}"><input type="button" value="修改微博"></a></td>
+                <td><a href="/wb/delete?id={{ wb.id }}"><input type="button" value="删除微博"></a></td>
             </tr>
         {% endfor %}
-        <a href="/wb/addwb"><input type="button" value="添加微博"></a>
-        <a href="/wb/updatewb?id={{ wb.id }}"><input type="button" value="修改微博"></a>
     </table>
+    <a href="/wb/addwb"><input type="button" value="添加微博"></a>
 {% endblock %}
+
+
