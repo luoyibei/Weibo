@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask import Flask, request, redirect, render_template, session
 from libs.orm import db
 from user.models import User
-from wb.models import Wb
+from wb.models import Wb,Comment
 from libs.utils import login_required
 import datetime
 import math
@@ -57,7 +57,23 @@ def read():
     '''阅读微博'''
     id = request.args.get('id')
     wb = Wb.query.get(id)
-    return render_template('read.html', wb=wb)
+    comments = Comment.query.filter_by(w_id=id).all()
+    return render_template('read.html', wb=wb,comments=comments)
+
+
+@wb_bp.route('/comment',methods=('POST'))
+@login_required
+def comment():
+    cmcontent =  request.form.get('cmcontent')
+    u_name = session.get('name')
+    # user = User.query.filter_by(username=u_name).one()
+    w_id = session.get('id')
+    wb = Wb.query.filter_by(id=w_id).one()
+    cmtime = datetime.datetime.now()
+    comment = Comment(u_name=u_name,w_id=w_id,cmtime=cmtime,cmcontent=cmcontent)
+    db.session.add(comment)
+    db.session.commit()
+    return redirect('/wb/read?id=%s' % wb.id)
 
 
 @wb_bp.route('/mywb')

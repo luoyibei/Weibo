@@ -3,6 +3,7 @@ from libs.orm import db
 
 
 class User(db.Model):
+    '''添加用户表'''
     __tablename__ = 'user'
 
     id = db.Column(db.Integer,primary_key=True)
