@@ -7,60 +7,56 @@
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <style>
         .navbar-pad {
-                margin-bottom: 20px;
-            }
+            margin-bottom: 20px;
+        }
+
         .footbar {
-                margin-top: 50px;
-            }
+            margin-top: 50px;
+        }
     </style>
 </head>
 <body>
-    <!--导航栏-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-pad">
-      <a class="navbar-brand" href="/">
-        微博
-      </a>
+<!--导航栏-->
 
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">微博首页</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/wb/mywb">个人微博</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/user/info">个人信息</a>
-          </li>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-pad">
+    <a class="navbar-brand" href="/">微博</a>
+    <div class="collapse navbar-collapse">
+        <ul class="nav nav-tabs">
+            <li role="presentation"><a href="/">微博首页</a></li>
+            <li role="presentation"><a href="/wb/mywb">个人微博</a></li>
+            <li role="presentation"><a href="/user/info">个人信息</a></li>
+            <div style="float: right">
+                {% if 'name' in session %}
+                    <a class="btn btn-lg btn-primary" href="/user/info">{{ session.name }}</a>
+                    <a class="btn btn-lg btn-primary" href="/user/logout">退出</a>
+                {% else %}
+                    <a class="btn btn-lg btn-primary" href="/user/register">注册</a>
+                    <a class="btn btn-lg btn-primary" href="/user/login">登录</a>
+                {% endif %}
+            </div>
         </ul>
-           <div>
-          {% if 'name' in session %}
-          <a class="btn btn-outline-primary" href="/user/info">{{ session.name }}</a>
-          <a class="btn btn-outline-success" href="/user/logout">退出</a>
-          {% else %}
-          <a class="btn btn-outline-primary" href="/user/register">注册</a>
-          <a class="btn btn-outline-success" href="/user/login">登录</a>
-          {% endif %}
-        </div>
-      </div>
-    </nav>
-    <!--容器-->
-    <div class="container">
-      <div class="row">
+
+    </div>
+</nav>
+<!--容器-->
+<div class="container">
+    <div class="row">
         <!-- 内容区 -->
         <div class="col-8">{% block content %}{% endblock %}</div>
 
         <!-- 边栏区 -->
         <div class="col-4">{% block sidebar %}{% endblock %}</div>
-      </div>
     </div>
-    <!--底栏-->
-    <!-- 底栏 -->
-    <div class="container footbar">
-      <div class="text-center text-secondary">Copyright @ Luoyibei</div>
-    </div>
-<script src="/static/js/jquery-3.5.1.slim.min.js"></script>
-<script src="/static/js/popper.min.js"></script>
-<script src="/static/js/bootstrap.min.js"></script>
+</div>
+<!--底栏-->
+<!--
+<div class="container footbar">
+  <div class="text-center text-secondary">Copyright @ Luoyibei</div>
+</div>
+-->
+<script src="../static/js/jquery-3.5.1.slim.min.js"></script>
+<script src="../static/js/popper.min.js"></script>
+<script src="../static/js/bootstrap.min.js"></script>
 </body>
 </html>

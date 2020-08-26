@@ -1,37 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
-    <table border="1px solid antiquewhite" rules="all">
-        <tr>
-            <th>微博标题</th>
-            <th>微博作者</th>
-            <th>微博创建时间</th>
-            <th>微博内容</th>
-        </tr>
-        {% for wb in wbs %}
-            <tr>
-                <td>{{ wb.wbname }}</td>
-                <td>{{ wb.u_name }}</td>
-                <td>{{ wb.wbtime }}</td>
-                <td>{{ wb.wbcontent }}</td>
-            </tr>
-        {% endfor %}
-
-    </table>
+    {% for wb in wbs %}
+        <div class="alert alert-info" role="alert">
+            <strong>{{ wb.u_name }}</strong>说:
+            <br/>
+            <a class="btn btn-link"
+               href="/wb/read?id={{ wb.id }}">{{ wb.wbcontent | replace('\n', '<br />') | safe }}</a>
+            <br/>
+            {{ wb.wbtime }}
+        </div>
+        <hr/>
+    {% endfor %}
     <nav aria-label="Page navigation">
-      <ul class="pagination">
-        <li {% if not paginate.has_prev %} class="disabled" {% endif %}>
-          <a href="/wb/home?page={{ paginate.prev_num }}" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-          {% for num in range(1,paginate.pages + 1)  %}
-              <li {% if num == paginate.page %}class="active"{% endif %} ><a href="/wb/home?page={{ num }}">{{ num }}</a></li>
-          {% endfor %}
-        <li {% if not paginate.has_next %} class="disabled" {% endif %}>
-          <a href="/wb/home?page={{ paginate.next_num }}" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
+        <ul class="pagination">
+            {% if page_prev in pages %}
+                <li><a href="/wb/home?page={{ page_prev }}">&laquo;</a></li>
+            {% else %}
+                <li><a>&laquo;</a></li>
+            {% endif %}
+            {% for pg in pages %}
+                {% if pg == page %}
+                    <li><a class="btn btn-primary btn-lg">{{ pg }}</a></li>
+                {% else %}
+                    <li><a href="/wb/home?page={{ pg }}">{{ pg }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if page_next in pages %}
+                <li><a href="/wb/home?page={{ page_next }}">&raquo;</a></li>
+            {% else %}
+                <li><a>&raquo;</a></li>
+            {% endif %}
+        </ul>
     </nav>
+
 {% endblock %}

@@ -1,25 +1,63 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <div class="div1">
-        {% if err  %}
-            <p>{{ err }}</p>
-        {% endif %}
+    <!-- 处理错误信息 -->
+    {% if err %}
+        <div class="alert alert-danger" role="alert">
+            <p class="mb-0">{{ err }}</p>
+        </div>
+    {% endif %}
+    <div>
         <form action="/user/register" method="POST">
-            新帐号:<input type="text" name="username" placeholder="请输入你的帐号">
-            <br>
-            新密码:<input type="password" name="password1" placeholder="请输入你的密码">
-            <br>
-            确认密码:<input type="password" name="password2" placeholder="请再输入你的密码">
-            <br>
-            性 别:<input type="radio" name="gender" value="男" >男
-                 <input type="radio" name="gender" value="女" >女
-                 <input type="radio" name="gender" value="保密" checked >保密
-            <br>
-            城 市:<input type="text" name="city">
-            <br>
-            <br>
-            <a href="/user/login"><input type="submit" value="注册"></a>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">新帐号:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" name="username" placeholder="请输入你的帐号">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">新密码:</label>
+                <div class="col-sm-5">
+                    <input type="password" class="form-control" name="password1" placeholder="请输入你的密码">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">确认密码:</label>
+                <div class="col-sm-5">
+                    <input type="password" class="form-control" name="password2" placeholder="请再次输入你的密码">
+                </div>
+            </div>
+            <fieldset class="form-group">
+                <div class="row">
+                    <legend class="col-form-label col-sm-2 pt-0">性 别:</legend>
+                    <div class="col-sm-5">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" value="男"/>
+                            <label class="form-check-label">男</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" value="女"/>
+                            <label class="form-check-label">女</label>
+                        </div>
+                        <div class="form-check disabled">
+                            <input class="form-check-input" type="radio" name="gender" value="保密" checked/>
+                            <label class="form-check-label">保密</label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">城 市:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" name="city">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-5">
+                    <a href="/user/login"><input type="submit" class="btn btn-success" value="注册"></a>
+                </div>
+            </div>
         </form>
     </div>
 {% endblock %}

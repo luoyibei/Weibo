@@ -1,27 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
+    {% if err %}
+        <div class="alert alert-danger" role="alert">
+            <p class="mb-0">{{ err }}</p>
+        </div>
+    {% endif %}
     <form action="/wb/updatewb" method="POST">
-        <table>
-            <tr>
-                <input type="hidden" name="id" value="{{ wb.id }}">
-            </tr>
-            <tr>
-                微博标题:<input type="text" name="wbname" value="{{ wb.wbname }}">
-            </tr>
-            <br>
-            <tr>
-                <input type="hidden" name="u_name" value="{{ wb.u_name }}">
-            </tr>
-            <tr>
-                <input type="hidden" name="wbtime" value="{{ wb.wbtime }}">
-            </tr>
-            <tr>
-                微博内容:<textarea name="wbcontent">{{ wb.wbcontent }}</textarea>
-            </tr>
-            <br>
-            <tr>
-                <input type="submit" value="修改">
-            </tr>
-        </table>
+        <div class="form-group row">
+            <label class="col-sm-2">微博内容</label>
+            <div class="col-sm-8">
+                <textarea class="form-control" name="wbcontent" rows="5">{{ wb.wbcontent }}</textarea>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="{{ wb.id }}">
+        <div class="form-group row">
+            <label class="col-sm-2"></label>
+            <div class="col-sm-5">
+                <input class="btn btn-success" type="submit" value="修改微博">
+            </div>
+        </div>
     </form>
 {% endblock %}

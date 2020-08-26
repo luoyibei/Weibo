@@ -3,10 +3,10 @@ from libs.orm import db
 
 
 class Wb(db.Model):
+    '''添加微博表'''
     __tablename__ = 'wb'
 
     id = db.Column(db.Integer,primary_key=True)
-    wbname = db.Column(db.String(20),nullable=False)
-    u_name = db.Column(db.String(20))
-    wbtime = db.Column(db.Date)
-    wbcontent = db.Column(db.Text)
+    u_name = db.Column(db.String(20),nullable=False)
+    wbtime = db.Column(db.DateTime,nullable=False)
+    wbcontent = db.Column(db.Text,nullable=False)
