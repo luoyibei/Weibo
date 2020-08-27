@@ -1,37 +1,87 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="alert" role="alert">
-        <h4><strong>{{ wb.u_name }}</strong>说:</h4>
-        <hr/>
-        <p class="mb-0">
-            {{ wb.wbcontent | replace('\n', '<br>') | safe }}
-        </p>
-        <hr/>
-        <hr/>
-        <div class="row col-12">
-            {% if wb.u_name == session.get('name') %}
-                <a class="btn btn-warning" href="/wb/updatewb?id={{ wb.id }}">修改微博</a>
-                &nbsp;&nbsp;&nbsp;
-                <a class="btn btn-danger" href="/wbo/delete?id={{ wb.id }}">删除微博</a>
-                &nbsp;&nbsp;&nbsp;
-            {% endif %}
-            <span class="text-secondary">{{ wb.wbtime }}</span>
-        </div>
-        <hr/>
-        <h4><strong>评论</strong>:</h4>
-        <form action="/wb/comment" method="POST">
-            <div class="form-group">
-                <input type="text" class="form-control" name="cmcontent" placeholder="请填写评论">
-            </div>
-            <div class="form-group">
-                <a href="/wb/comment"><input type="submit" class="btn btn-primary" value="评论"></a>
-            </div>
-        </form>
-        <ul>
-            {% for comment in comments %}
-                <li>{{ comment.cmcontent }}</li>
-            {% endfor %}
-        </ul>
+<!-- 处理错误信息 -->
+{% if err %}
+    <div class="alert alert-danger" role="alert">
+        <p class="mb-0">{{ err }}</p>
     </div>
+{% endif %}
+<div class="alert" role="alert">
+    <h4><strong>{{ wb.u_name }}</strong>说:</h4>
+    <hr/>
+    <p class="mb-0">
+        {{ wb.wbcontent | replace('\n', '<br>') | safe }}
+    </p>
+    <hr/>
+    <hr/>
+    <div class="row col-12">
+        {% if wb.u_name == session.get('name') %}
+            <a class="btn btn-warning" href="/wb/updatewb?id={{ wb.id }}">修改微博</a>
+            &nbsp;&nbsp;&nbsp;
+            <a class="btn btn-danger" href="/wbo/delete?id={{ wb.id }}">删除微博</a>
+            &nbsp;&nbsp;&nbsp;
+        {% endif %}
+        <span class="text-secondary">{{ wb.wbtime }}</span>
+        {% if thumb.flag == False %}
+            <a class="btn btn-primary" href="/wb/thumb?id={{ wb.id }}">点赞</a>
+        {% else %}
+            <a class="btn btn-primary" href="/wb/de_thumb?id={{ wb.id }}">取消点赞</a>
+        {% endif %}
+        {% endif %}
+        <span class="text-secondary">{{ wb.wbtime }}</span>
+        {% if follow.flag == False %}
+            <a class="btn btn-primary" href="/wb/follow?id={{ wb.id }}">关注博主</a>
+        {% else %}
+            <a class="btn btn-primary" href="/wb/de_follow?id={{ wb.id }}">取消关注</a>
+        {% endif %}
+    </div>
+    <!--     评论          -->
+    <hr/>
+    <h4><strong>评论</strong>:</h4>
+    <form action="/wb/comment" method="POST">
+        <div class="form-group">
+            <input type="text" class="form-control" name="cmcontent" placeholder="请填写评论">
+        </div>
+        <input type="hidden" name="w_id" value="{{ wb.id }}"/>
+        <div class="form-group">
+            <a href="/wb/comment"><input type="submit" class="btn btn-primary" value="评论"></a>
+        </div>
+    </form>
+
+    <!--     评论展示      -->
+
+    {% for comment in comments %}
+        <div class="alert alert-secondary" role="alert">
+            {% if comment.c_id == 0 %}
+                <strong>{{ comment.u_name }}</strong> 说:
+            {% else %}
+                <strong>{{ comment.u_name }}</strong> 对 <strong>{{ comment.upper.u_name }}</strong> 说:
+            {% endif %}
+
+            <hr>
+
+            <form class="form-inline text-right" action="/wb/reply" method="POST">
+                <div class="form-group mx-sm-2">
+                    <input type="text" class="form-control" name="cmcontent" placeholder="请填写评论">
+                    <input type="hidden" name="w_id" value="{{ wb.id }}">
+                    <input type="hidden" name="c_id" value="{{ comment.id }}">
+                    <input type="submit" class="btn btn-primary" value="回复">
+                </div>
+            </form>
+            <p class="col">{{ comment.cmcontent }}</p>
+            <br>
+            <div class="text-right">
+                <span class="text-secondary">{{ comment.cmtime }}</span>
+                {% if session.name == comment.u_name %}
+                    <a class="text-danger" href="/wb/de_comment?c_id={{ comment.id }}"><input type="button"
+                                                                                              class="btn btn-danger"
+                                                                                              value="删除"></a>
+                {% endif %}
+            </div>
+        </div>
+        <hr>
+    {% endfor %}
+    <br>
+</div>
 
 {% endblock %}

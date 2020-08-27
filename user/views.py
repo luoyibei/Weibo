@@ -25,6 +25,7 @@ def login():
         if user.password != password:
             return render_template('login.html',err='您输入的密码有误')
         session['name'] = user.username
+        session['u_id'] = user.id
         return redirect('/wb/home')
     else:
         return render_template('login.html')
