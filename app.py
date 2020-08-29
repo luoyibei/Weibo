@@ -10,7 +10,7 @@ from wb.views import wb_bp
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:19971231@127.0.0.1/Weibo"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:19971231@localhost/Weibo"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 manger = Manager(app)
 migrate = Migrate(app,db)
