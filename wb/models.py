@@ -7,9 +7,9 @@ class Wb(db.Model):
     __tablename__ = 'wb'
 
     id = db.Column(db.Integer,primary_key=True)
+    u_id = db.Column(db.Integer, nullable=False, index=True)
     u_name = db.Column(db.String(20),nullable=False)
     n_thumb = db.Column(db.Integer, nullable=False, index=True, default=0)
-    n_follow = db.Column(db.Integer, nullable=False, index=True, default=0)
     wbtime = db.Column(db.DateTime,nullable=False)
     wbcontent = db.Column(db.Text,nullable=False)
 
@@ -41,12 +41,4 @@ class Thumb(db.Model):
     __tablename__ = 'thumb'
     u_id = db.Column(db.Integer, primary_key=True)
     w_id = db.Column(db.Integer, primary_key=True)
-    flag = db.Column(db.Boolean,nullable=False,default=False)
 
-
-class Follow(db.Model):
-    '''添加点赞表'''
-    __tablename__ = 'follow'
-    u_id = db.Column(db.Integer, primary_key=True)
-    w_id = db.Column(db.Integer, primary_key=True)
-    flag = db.Column(db.Boolean,nullable=False,default=False)

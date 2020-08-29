@@ -1,8 +1,8 @@
 from flask import Blueprint
 from flask import Flask, request, redirect, render_template, session
 from libs.orm import db
-from user.models import User
-from wb.models import Wb,Comment,Thumb,Follow
+from user.models import User,Follow
+from wb.models import Wb,Comment,Thumb
 from libs.utils import login_required
 import datetime
 import math
@@ -60,82 +60,58 @@ def read():
     session['w_id'] = id
     '''展示所有的评论'''
     comments = Comment.query.filter_by(w_id=id).order_by(Comment.cmtime.desc()).all()
-    thumb = Thumb.qyery.filter_by(u_id=session['u_id']).filter_by(w_id=id)
-    follow = Follow.qyery.filter_by(u_id=session['u_id']).filter_by(w_id=id)
-    return render_template('read.html', wb=wb,comments=comments,thumb=thumb,follow=follow)
+    u_id = session.get('u_id')
+    if u_id:
+        if Thumb.query.filter_by(u_id=session['u_id'],w_id=id).count():
+            is_thumb = True
+        else:
+            is_thumb = False
+    else:
+        is_thumb = False
+    # follow = Follow.query.filter_by(u_id=session['u_id'],f_id=id)
+    return render_template('read.html', wb=wb,comments=comments,is_thumb=is_thumb)
 
 
 @wb_bp.route('/thumb')
+@login_required
 def thumb():
     '''点赞'''
 
     w_id = request.args.get('id')
     u_id = session.get('u_id')
-    wb = Wb.query.filter_by(id=w_id).one()
-    wb.n_thumb = wb.n_thumb + 1
-    '''提交wb'''
-    db.session.commit()
+    # wb = Wb.query.filter_by(id=w_id).one()
+    # wb.n_thumb = wb.n_thumb + 1
+    thumb = Thumb(u_id=u_id, w_id=w_id)
+    try:
+        '''点赞'''
+        Wb.query.filter_by(id=w_id).update({'n_thumb': Wb.n_thumb + 1})
+        db.session.add(thumb)
+        db.session.commit()
+    except Exception:
+        '''取消点赞'''
+        db.session.rollback()
+        Wb.query.filter_by(id=w_id).update({'n_thumb': Wb.n_thumb - 1})
+        Thumb.query.filter_by(w_id=w_id, u_id=u_id).delete()
+        db.session.commit()
 
-    thumb = Thumb(u_id=u_id,w_id=w_id,flag=True)
-    db.session.add(thumb)
-    '''提交Thumb'''
-    db.session.commit()
-
-    redirect('/wb/read?id=%s' % w_id)
+    return redirect('/wb/read?id=%s' % w_id)
 
 
 
-@wb_bp.route('/de_thumb')
-def de_thumb():
-    '''取消点赞'''
-    w_id = request.args.get('id')
+
+@wb_bp.route('/follow_wb')
+@login_required
+def follow_wb():
+    '''查看自己关注的人的微博'''
     u_id = session.get('u_id')
-    wb = Wb.query.filter_by(id=w_id).one()
-    wb.n_thumb = wb.n_thumb - 1
-    '''提交wb'''
-    db.session.commit()
 
-    Thumb.query.filter_by(w_id=w_id,u_id=u_id).delete()
-    '''提交Thumb'''
-    db.session.commit()
+    follows = Follow.query.filter_by(u_id=u_id).values('f_id')
+    fids = [f_id for (f_id,) in follows]
 
-    redirect('/wb/read?id=%s' % w_id)
+    wbs = Wb.query.filter(Wb.u_id.in_(fids)).order_by(Wb.wbtime.desc()).limit(100)
 
+    return render_template('follow_wb.html',wbs=wbs,u_id=u_id)
 
-@wb_bp.route('/follow')
-def follow():
-    '''关注博主'''
-
-    w_id = request.args.get('id')
-    u_id = session.get('u_id')
-    wb = Wb.query.filter_by(id=w_id).one()
-    wb.n_follow = wb.n_follow+ 1
-    '''提交wb'''
-    db.session.commit()
-
-    follow = Follow(u_id=u_id,w_id=w_id,flag=True)
-    db.session.add(follow)
-    '''提交follow'''
-    db.session.commit()
-
-    redirect('/wb/read?id=%s' % w_id)
-
-
-@wb_bp.route('/de_follow')
-def de_follow():
-    '''取消关注'''
-    w_id = request.args.get('id')
-    u_id = session.get('u_id')
-    wb = Wb.query.filter_by(id=w_id).one()
-    wb.n_follow = wb.n_follow - 1
-    '''提交wb'''
-    db.session.commit()
-
-    Follow.query.filter_by(w_id=w_id,u_id=u_id).delete()
-    '''提交follow'''
-    db.session.commit()
-
-    redirect('/wb/read?id=%s' % w_id)
 
 
 @wb_bp.route('/comment',methods=('POST',))
@@ -202,11 +178,12 @@ def addwb():
     '''添加微博'''
     if request.method == 'POST':
         u_name = session['name']
+        u_id = session['u_id']
         wbtime = datetime.datetime.now()
         wbcontent = request.form.get('wbcontent', '').strip()
         if not wbcontent:
             return render_template('addwb.html', err='微博内容不能为空')
-        wb = Wb(u_name=u_name, wbtime=wbtime, wbcontent=wbcontent)
+        wb = Wb(u_id=u_id,u_name=u_name, wbtime=wbtime, wbcontent=wbcontent)
         db.session.add(wb)
         db.session.commit()
         return redirect('/wb/read?id=%s' % wb.id)

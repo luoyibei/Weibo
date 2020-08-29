@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>{{ user.username }} 您好</h1>
-    <ul>
-
-        <li>密码:{{ user.password }}</li>
-        <li>性别:{{ user.gender }}</li>
-        <li>城市:{{ user.city }}</li>
+    <ul class="list-group">
+        <li class="list-group-item"><strong>关注</strong>：{{ user.n_follow }}</li>
+        <li class="list-group-item"><strong>粉丝</strong>：{{ user.n_fans }}</li>
+        <li class="list-group-item"><strong>性别:</strong>：{{ user.gender }}</li>
+        <li class="list-group-item"><strong>城市:</strong>：{{ user.city }}</li>
     </ul>
 {% endblock %}

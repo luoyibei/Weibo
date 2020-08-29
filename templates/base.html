@@ -25,14 +25,19 @@
         <ul class="nav nav-tabs">
             <li role="presentation"><a href="/">微博首页</a></li>
             <li role="presentation"><a href="/wb/mywb">个人微博</a></li>
-            <li role="presentation"><a href="/user/info">个人信息</a></li>
+            <li role="presentation"><a href="/wb/follow_wb">关注的人的微博</a></li>
+            <li role="presentation"><a href="/user/fans">粉丝列表</a></li>
             <div style="float: right">
                 {% if 'name' in session %}
+
                     <a class="btn btn-lg btn-primary" href="/user/info">{{ session.name }}</a>
                     <a class="btn btn-lg btn-primary" href="/user/logout">退出</a>
+                    <a class="btn btn-lg btn-primary" href="/user/author">联系作者</a>
                 {% else %}
+
                     <a class="btn btn-lg btn-primary" href="/user/register">注册</a>
                     <a class="btn btn-lg btn-primary" href="/user/login">登录</a>
+                    <a class="btn btn-lg btn-primary" href="/user/author">联系作者</a>
                 {% endif %}
             </div>
         </ul>

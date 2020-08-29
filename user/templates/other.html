@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- 处理错误信息 -->
+    {% if err %}
+        <div class="alert alert-danger" role="alert">
+            <p class="mb-0">{{ err }}</p>
+        </div>
+    {% endif %}
+    <div class="row align-items-center">
+        <h2 class="col-sm-3">{{ user.username }} 您好</h2>
+        <div class="col">
+            {% if is_follow %}
+                <a class="btn btn-success" href="/user/follow?f_id={{ user.id }}">取消关注</a>
+            {% else %}
+                <a class="btn btn-success" href="/user/follow?f_id={{ user.id }}">关注</a>
+            {% endif %}
+        </div>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item"><strong>关注</strong>：{{ user.n_follow }}</li>
+        <li class="list-group-item"><strong>粉丝</strong>：{{ user.n_fans }}</li>
+        <li class="list-group-item"><strong>性别:</strong>：{{ user.gender }}</li>
+        <li class="list-group-item"><strong>城市:</strong>：{{ user.city }}</li>
+    </ul>
+{% endblock %}

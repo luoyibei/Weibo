@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+<!-- 填充 content -->
+{% block content %}
+
+    <h1>粉丝列表</h1>
+
+    <hr/>
+
+    <ul class="list-group">
+        {% for user in users %}
+            <li class="list-group-item">
+    <span class="text-primary">
+      <a href="/user/other?uid={{ user.id }}">{{ user.username }}</a>
+    </span>
+                &emsp;
+                <span class="text-info">{{ user.gender }}</span>
+                &emsp;
+                <span class="text-primary">{{ user.city }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

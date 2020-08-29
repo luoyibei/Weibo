@@ -2,7 +2,7 @@
 {% block content %}
     {% for wb in wbs %}
         <div class="alert alert-info" role="alert">
-            <strong>{{ wb.u_name }}</strong>说:
+            <a class="btn btn-link" href="/user/other?uid={{ wb.u_id }}"><strong>{{ wb.u_name }}</strong></a>说:
             <br/>
             <a class="btn btn-link"
                href="/wb/read?id={{ wb.id }}">{{ wb.wbcontent | replace('\n', '<br />') | safe }}</a>

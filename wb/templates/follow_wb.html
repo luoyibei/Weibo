@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+<!-- 填充 content -->
+{% block content %}
+
+    {% for wb in wbs %}
+        <div class="alert alert-info" role="alert">
+            <!-- 用户昵称 -->
+            <a href="/user/other?uid={{ wb.u_id }}">
+                <strong>{{ wb.u_name }}</strong>
+            </a>
+            说:
+            <br/>
+
+            <!-- 微博内容 -->
+            <a class="text-secondary" href="/wb/read?id={{ wb.id }}">{{ wb.wbcontent | replace('\n', '<br />') | safe }}</a>
+            <br/>
+
+            <!-- 微博状态 -->
+            <span class="text-secondary">{{ wb.wbtime }}</span>
+            &emsp;
+            <span class="text-danger">{{ wb.n_thumb }} 赞</span>
+        </div>
+        <hr/>
+    {% endfor %}
+
+    <!--  -->
+
+{% endblock %}
